@@ -101,19 +101,10 @@ public class App {
                 }
             }
         }
-        System.out.println();
         for (i = 0; i < 10; i++) {
             if (mot_formé[i] == '0') { // On compte le nombre de charactère '0' dans le tableau mot_formé
                 k = k + 1;
             }
-        }
-        if (k == 10) { // Si le nombre de charactère '0' est égal à 10, cela signifie que le mot saisi
-                       // par l'utilisateur
-                       // est bien formé à partir des lettres tirées
-            System.out.println(
-                    "Le mot " + MOT + " est bien formé à partir des lettres tirées et il fait " + length + " lettres");
-        } else {
-            System.out.println("Le mot " + MOT + " n'est pas formé à partir des lettres tirées");
         }
         String Dictionnaire = "Dictionnaire.txt";
         try {
@@ -121,20 +112,26 @@ public class App {
             Scanner sc = new Scanner(fichier); // On crée un objet de type Scanner pour lire le fichier Dictionnaire.txt
             while (sc.hasNextLine()){
                 String ligne = sc.nextLine(); // On lit chaque ligne du fichier Dictionnaire.txt
-                if (ligne.equals(MOT.toLowerCase())){ // On vérifie si le mot saisi par l'utilisateur est présent dans le fichier
+                if (ligne.equals(MOT.toLowerCase()) && (k==10)){ // On vérifie si le mot saisi par l'utilisateur est présent dans le fichier et si le mot est bien formé à partir des lettres tirées
                     System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire");
-                } else {
-                    //System.out.println("Le mot " + MOT + " n'est pas présent dans le dictionnaire");
-                }
+                    System.out.println("Félicitations, vous avez formé un mot de " + length + " lettres valide");
+                } else if (ligne.equals(MOT.toLowerCase()) && (k!=10)){ 
+                    System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire mais il n'est pas formé à partir des lettres tirées");
+                } else if (!ligne.equals(MOT.toLowerCase()) && (k==10)){ 
+                    System.out.println("Le mot " + MOT + " n'est pas présent dans le dictionnaire mais il est bien formé à partir des lettres tirées");
+            } else if (!ligne.equals(MOT.toLowerCase()) && (k!=10)){ 
+                System.out.println("Le mot " + MOT + " n'est pas présent dans le dictionnaire et il n'est pas formé à partir des lettres tirées");
             }
             sc.close(); // On ferme le scanner
-        } catch (Exception e) {
+        }
+    } 
+        catch (Exception e) {
             System.out.println("Erreur le dictionnaire n'a pas été trouvé");
         }
     }   
-   private static File getFileFromResource(String fileName) throws URISyntaxException{
-        ClassLoader classLoader = App.class.getClassLoader();
-        URL resource = classLoader.getResource(fileName);
+   private static File getFileFromResource(String fileName) throws URISyntaxException{ // Méthode pour récupérer un fichier à partir de son nom
+        ClassLoader classLoader = App.class.getClassLoader(); 
+        URL resource = classLoader.getResource(fileName); 
         if (resource == null) {
             throw new IllegalArgumentException("file not found! " + fileName);
         } else {
@@ -144,6 +141,5 @@ public class App {
 
             return new File(resource.toURI());
         }
-
     }
 }
