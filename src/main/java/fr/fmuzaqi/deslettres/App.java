@@ -1,6 +1,12 @@
+package fr.fmuzaqi.deslettres;
+
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import fr.insa.Lire;
 
 public class App {
     public static void main(String[] args) {
@@ -148,14 +154,14 @@ public class App {
         }
         String Dictionnaire = "Dictionnaire.txt";
         try {
-            File fichier = new File(Dictionnaire); // On crée un objet File pour représenter le fichier à lire.
+            File fichier = getFileFromResource(Dictionnaire); // On crée un objet File pour représenter le fichier à lire.
             Scanner sc = new Scanner(fichier); // On crée un objet de type Scanner pour lire le fichier Dictionnaire.txt
             while (sc.hasNextLine()){
                 String ligne = sc.nextLine(); // On lit chaque ligne du fichier Dictionnaire.txt
-                if (ligne.equals(MOT)){ // On vérifie si le mot saisi par l'utilisateur est présent dans le fichier
+                if (ligne.equals(MOT.toLowerCase())){ // On vérifie si le mot saisi par l'utilisateur est présent dans le fichier
                     System.out.println("Le mot " + MOT + " est bien présent dans le dictionnaire");
                 } else {
-                    System.out.println("Le mot " + MOT + " n'est pas présent dans le dictionnaire");
+                    //System.out.println("Le mot " + MOT + " n'est pas présent dans le dictionnaire");
                 }
             }
             sc.close(); // On ferme le scanner
@@ -163,4 +169,22 @@ public class App {
             System.out.println("Erreur le dictionnaire n'a pas été trouvé");
         }
     }   
+
+
+
+
+    private static File getFileFromResource(String fileName) throws URISyntaxException{
+        ClassLoader classLoader = App.class.getClassLoader();
+        URL resource = classLoader.getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+
+            // failed if files have whitespaces or special characters
+            //return new File(resource.getFile());
+
+            return new File(resource.toURI());
+        }
+
+    }
 }

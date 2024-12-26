@@ -1,3 +1,5 @@
+package fr.insa;
+
 import java.io.*;
 
 /**
