@@ -17,7 +17,7 @@ public class App {
     }
 
     public static void tirages(char[] lettres_finales) {
-        int i, j, l, indice;
+        int i,j,l;
         char k;
         char[] tirage_consonnes = new char[5]; // tableau qui va contenir les 5 consonnes tirées aléatoirement
         char[] tirage_voyelles = new char[3]; // tableau qui va contenir les 3 voyelles tirées aléatoirement
@@ -34,22 +34,9 @@ public class App {
         java.util.Collections.shuffle(consonnes2); // On mélange la liste consonnes2 de manière aléatoire en utilisant
                                                    // la méthode shuffle de la classe Collections
         for (i = 0; i < 5; i++) {
-            System.out.println("sélectionner un indice entre 0 et 19");// On demande à l'utilsateur de saisir un indice
-                                                                       // entre 0 et 19 afin de choisir une consonne de
-                                                                       // la liste
-            indice = Lire.i();
-            if (indice < 0 || indice > 19) { // On vérifie que l'indice saisi par l'utilisateur est bien compris entre 0
-                                             // et 19
-                System.out.println("Erreur : L'indice doit être compris entre 0 et 19");
+            tirage_consonnes[i] = consonnes2.get(i); // On ajoute les 5 premières consonnes de la liste consonnes2 dans
+                                                     // le tableau tirage_consonnes
             }
-            tirage_consonnes[i] = consonnes2.get(indice); // On ajoute la consonne choisie par l'utilisateur dans le
-                                                          // tableau tirage_consonnes
-            java.util.Collections.shuffle(consonnes2); // On remélamnge la liste consonnes2 de manière aléatoire
-        }
-        for (i = 0; i < 5; i++) {
-            System.out.print(tirage_consonnes[i] + " "); // On affiche les 5 consonnes tirées aléatoirement
-        }
-        System.out.println();
         char[] voyelles1 = { 'A', 'E', 'I', 'O', 'U', 'Y' }; // tableau des voyelles
         ArrayList<Character> voyelles2 = new ArrayList<Character>(); // On converti notre tableau voyelles1 en
                                                                      // ArrayList afin de pouvoir mélanger la liste de
@@ -60,21 +47,9 @@ public class App {
         java.util.Collections.shuffle(voyelles2); // On mélange la liste voyelles2 de manière aléatoire en utilisant
                                                   // la méthode shuffle de la classe Collections
         for (l = 0; l < 3; l++) {
-            System.out.println("Sélectionner un indice entre 0 et 5"); // On demande à l'utilsateur de saisir un indice
-                                                                       // entre 0 et 5 afin de choisir une voyelle de la
-                                                                       // liste
-            indice = Lire.i();
-            if (indice < 0 || indice > 5) {
-                System.out.println("Erreur : L'indice doit être compris entre 0 et 5");
-            }
-            tirage_voyelles[l] = voyelles2.get(indice); // On ajoute la voyelle choisie par l'utilisateur dans le
-                                                        // tableau tirage_voyelles
-            java.util.Collections.shuffle(voyelles2); // On remélamnge la liste voyelles2 de manière aléatoire
+            tirage_voyelles[l] = voyelles2.get(l); // On ajoute les 3 premières voyelles de la liste voyelles2 dans le
+                                                   // tableau tirage_voyelles
         }
-        for (l = 0; l < 3; l++) {
-            System.out.print(tirage_voyelles[l] + " "); // On affiche les 3 voyelles tirées aléatoirement
-        }
-        System.out.println();
         ArrayList<Character> alphabet = new ArrayList<Character>(); // On crée une liste alphabet qui va contenir les 26
                                                                     // lettres de l'alphabet
         for (k = 'A'; k <= 'Z'; k++) { 
@@ -82,22 +57,9 @@ public class App {
         }
         java.util.Collections.shuffle(alphabet); // On mélange la liste alphabet de manière aléatoire
         for (j = 0; j < 2; j++) {
-            System.out.println("Sélectionner un indice entre 0 et 25"); // On demande à l'utilsateur de saisir un indice
-                                                                        // entre 0 et 25 afin de choisir une lettre de
-                                                                        // la liste
-            indice = Lire.i();
-            if (indice < 0 || indice > 25) {
-                System.out.println("Erreur : L'indice doit être compris entre 0 et 25");
-            }
-            tirage_lettres_supp[j] = alphabet.get(indice); // On ajoute la lettre choisie par l'utilisateur dans le
-                                                           // tableau tirage_lettres_supp
-            java.util.Collections.shuffle(alphabet); // On remélamnge la liste alphabet de manière aléatoire
+            tirage_lettres_supp[j] = alphabet.get(j); // On ajoute les 2 premières lettres de la liste alphabet dans le
+                                                      // tableau tirage_lettres_supp
         }
-        for (j = 0; j < 2; j++) {
-            System.out.print(tirage_lettres_supp[j] + " "); // On affiche les 2 lettres supplémentaires tirées
-                                                            // aléatoirement
-        }
-        System.out.println();
         for (i = 0; i < 5; i++) {
             lettres_finales[i] = tirage_consonnes[i];
         }
@@ -107,6 +69,7 @@ public class App {
         for (i = 8; i < 10; i++) {
             lettres_finales[i] = tirage_lettres_supp[i - 8];
         }
+        System.out.println("Les lettres tirées sont : ");
         for (i = 0; i < 10; i++) {
             System.out.print(lettres_finales[i] + " ");
         }
@@ -169,11 +132,7 @@ public class App {
             System.out.println("Erreur le dictionnaire n'a pas été trouvé");
         }
     }   
-
-
-
-
-    private static File getFileFromResource(String fileName) throws URISyntaxException{
+   private static File getFileFromResource(String fileName) throws URISyntaxException{
         ClassLoader classLoader = App.class.getClassLoader();
         URL resource = classLoader.getResource(fileName);
         if (resource == null) {
